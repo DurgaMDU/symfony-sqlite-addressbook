@@ -9,9 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 */ 
 class Addressbook { 
    /** 
-      * @Assert\NotBlank() 
-   */ 
-   /** 
       * @ORM\Column(type = "integer") 
       * @ORM\Id 
       * @ORM\GeneratedValue(strategy = "AUTO") 
@@ -45,7 +42,12 @@ class Addressbook {
 
    /** 
       * @ORM\Column(type = "string", length = 10)
-      * @Assert\NotBlank()  
+      * @Assert\Length( 
+         * min = 5, 
+         * max = 7, 
+         * minMessage = "Your Zipcode must be at least {{ limit }} digit", 
+         * maxMessage = "Your Zipcode cannot be longer than {{ limit }} digit" 
+      * )   
    */ 
    private $zip;  
    /** 
@@ -62,13 +64,12 @@ class Addressbook {
    
    /** 
       * @ORM\Column(type = "string", length = 20) 
-      * @Assert\NotBlank() 
+      * @Assert\NotBlank(message="The {{ label }} field should not be blank.") 
    */ 
    private $phonenumber;  
   
    /** 
       * @ORM\Column(type = "date", nullable = true) 
-      * @Assert\Date() 
    */ 
    private $birthday;  
   

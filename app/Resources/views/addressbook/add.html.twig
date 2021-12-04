@@ -2,6 +2,22 @@
 
 {% block stylesheets %} 
    <style> 
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+   label.required:before {
+    content: "* ";
+}
    .card {
 		position: relative;
 		display: -ms-flexbox;
@@ -87,9 +103,48 @@
 			
 		{% endif %}
 		
-      {{ form_start(form) }} 
-      {{ form_widget(form) }} 
-      {{ form_end(form) }} 
+
+		{{ form_start(form) }}
+		<div class="form-group">
+
+			{{ form_row(form.firstname) }}
+			{{ form_row(form.lastname) }}
+			{{ form_row(form.streetandnumber) }}
+			
+			{{ form_label(form.zip) }}
+			{{ form_widget(form.zip) }}
+			{% if form.zip.vars.errors|length %}
+			<div class="alert alert-error">
+				{{ form_errors(form.zip) }}
+			</div>
+			{% endif %}
+			
+			{{ form_row(form.city) }}
+			{{ form_row(form.country) }}
+			
+			{{ form_row(form.phonenumber) }}
+			
+			{{ form_label(form.email) }}
+			{{ form_widget(form.email) }}
+			{% if form.email.vars.errors|length %}
+			<div class="alert alert-error">
+				{{ form_errors(form.email) }}
+			</div>
+			{% endif %}
+			
+			
+			{{ form_row(form.birthday) }}
+			
+			{{ form_label(form.picture) }}
+			{{ form_widget(form.picture) }}
+			{% if form.picture.vars.errors|length %}
+			<div class="alert alert-error">
+				{{ form_errors(form.picture) }}
+			</div>
+			{% endif %}
+
+		</div>
+		{{ form_end(form) }}
 		
    </div>   
    </div>   

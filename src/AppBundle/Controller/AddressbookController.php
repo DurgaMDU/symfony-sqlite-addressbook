@@ -17,6 +17,9 @@ use AppBundle\Entity\Addressbook;
 
 //Form Validation and Form fields types declr
 use AppBundle\Form\FormValidationType; 
+use AppBundle\Entity\FormValidation; 
+
+use Symfony\Component\Form\FormError;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType; 
@@ -45,7 +48,7 @@ class AddressbookController extends Controller
 	   ->findAll();
 	   return $this->render('addressbook/index.html.twig', array('data' => $list));
     }
-    
+
     /**
      * @Route("/addressbook/add")
      */
@@ -62,8 +65,8 @@ class AddressbookController extends Controller
 		  ->add('city', TextType::class) 
 		  ->add('country', TextType::class) 
 		  ->add('phonenumber', TextType::class) 
-		  ->add('email', EmailType::class)
-		  ->add('birthday', DateType::class, array( 'label' => 'Birthday','widget' => 'choice','required' => false, 'years' => range(date('Y')-90, date('Y'))))
+		  ->add('email', TextType::class)
+		  ->add('birthday', DateType::class, array( 'label' => 'Birthday','widget' => 'choice', 'years' => range(date('Y')-90, date('Y'))))
 		  ->add('picture', FileType::class, array('label' => 'Photo (png, jpeg)','required' => false,'attr' => [ 'accept' => 'image/*'  ])) 
 		  ->add('save', SubmitType::class, array('label' => 'Submit')) 
 		  ->getForm();  
@@ -93,7 +96,9 @@ class AddressbookController extends Controller
 		  
 		   
 	   }else{  
-		   return $this->render('addressbook/validate.html.twig', array( 
+		   //$form->addError(new FormError('My Generic Form Error not associate with any field!'));
+		   //$form->addError(new FormError());
+		   return $this->render('addressbook/add.html.twig', array( 
 			  'form' => $form->createView(), 
 			  'profilepic'=>''
 		   )); 
@@ -125,7 +130,7 @@ class AddressbookController extends Controller
 			  ->add('country', TextType::class) 
 			  ->add('phonenumber', TextType::class) 
 			  ->add('email', EmailType::class)
-			 ->add('birthday', DateType::class, array( 'label' => 'Birthday','widget' => 'choice','required' => false, 'years' => range(date('Y')-90, date('Y'))))
+			 ->add('birthday', DateType::class, array( 'label' => 'Birthday','widget' => 'choice', 'years' => range(date('Y')-90, date('Y'))))
 			 ->add('picture', FileType::class, array('label' => 'Photo (png, jpeg)','required' => false,'attr' => [ 'accept' => 'image/*'  ])) 
 			  ->add('save', SubmitType::class, array('label' => 'Submit')) 
 			  ->getForm(); 
@@ -147,7 +152,7 @@ class AddressbookController extends Controller
             }
         }
 		
-		return $this->render('addressbook/validate.html.twig', array( 
+		return $this->render('addressbook/add.html.twig', array( 
 			  'form' => $editForm->createView(),
 			  'profilepic'=>$Oldimg,
 			  
