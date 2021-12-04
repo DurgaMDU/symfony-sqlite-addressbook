@@ -6,7 +6,7 @@ Creating Simple Addressbook Curd Using Symfony 3.4, Doctrine with SQLite, Twig, 
     cd symfony-sqlite-addressbook
     composer install
 
-    #change database connection SQLite/MYSQL in app/config/config.yml
+    ##change database connection SQLite/MYSQL in app/config/config.yml && app/config/parameters.yml
     After configure your database conf. please use the following commands to create database
 
 	php bin/console doctrine:database:create
