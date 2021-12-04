@@ -17,6 +17,7 @@
 
    label.required:before {
     content: "* ";
+    color: red;
 }
    .card {
 		position: relative;
@@ -105,6 +106,7 @@
 		
 
 		{{ form_start(form) }}
+		<p><strong>Note:</strong> All fields marked with <strong style="color:red;">*</strong> are required</p>
 		<div class="form-group">
 
 			{{ form_row(form.firstname) }}
@@ -137,6 +139,12 @@
 			
 			{{ form_label(form.picture) }}
 			{{ form_widget(form.picture) }}
+			{% for attrname, attrvalue in form.picture %}
+				{% if attrname == 'help' %}
+					<span class="help-block">{{ attrvalue }}</span>
+				{% endif %}
+			{% endfor %}
+                
 			{% if form.picture.vars.errors|length %}
 			<div class="alert alert-error">
 				{{ form_errors(form.picture) }}

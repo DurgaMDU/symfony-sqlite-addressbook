@@ -67,7 +67,7 @@ class AddressbookController extends Controller
 		  ->add('phonenumber', TextType::class) 
 		  ->add('email', TextType::class)
 		  ->add('birthday', DateType::class, array( 'label' => 'Birthday','widget' => 'choice', 'years' => range(date('Y')-90, date('Y'))))
-		  ->add('picture', FileType::class, array('label' => 'Photo (png, jpeg)','required' => false,'attr' => [ 'accept' => 'image/*'  ])) 
+		  ->add('picture', FileType::class, array('label' => 'Photo (png, jpeg, <=2MB) ','required' => false,'attr' => [ 'accept' => 'image/*'  ])) 
 		  ->add('save', SubmitType::class, array('label' => 'Submit')) 
 		  ->getForm();  
 		  
@@ -96,8 +96,7 @@ class AddressbookController extends Controller
 		  
 		   
 	   }else{  
-		   //$form->addError(new FormError('My Generic Form Error not associate with any field!'));
-		   //$form->addError(new FormError());
+		   //$form->addError(new FormError('All fields marked with * are required'));
 		   return $this->render('addressbook/add.html.twig', array( 
 			  'form' => $form->createView(), 
 			  'profilepic'=>''
@@ -131,7 +130,7 @@ class AddressbookController extends Controller
 			  ->add('phonenumber', TextType::class) 
 			  ->add('email', EmailType::class)
 			 ->add('birthday', DateType::class, array( 'label' => 'Birthday','widget' => 'choice', 'years' => range(date('Y')-90, date('Y'))))
-			 ->add('picture', FileType::class, array('label' => 'Photo (png, jpeg)','required' => false,'attr' => [ 'accept' => 'image/*'  ])) 
+			 ->add('picture', FileType::class, array('label' => 'Photo (png, jpeg, <=2MB)','required' => false,'attr' => [ 'accept' => 'image/*'  ])) 
 			  ->add('save', SubmitType::class, array('label' => 'Submit')) 
 			  ->getForm(); 
 		$editForm->handleRequest($request);
