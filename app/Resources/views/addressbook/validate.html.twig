@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %} 
+
+{% block stylesheets %} 
+   <style> 
+   .card {
+		position: relative;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		min-width: 0;
+		word-wrap: break-word;
+		background-color: #fbf8f8;
+		background-clip: border-box;
+		border: 1px solid rgba(0,0,0,.125);
+		border-radius: 0.25rem;
+	}
+	.card-body {
+		padding: 1.25rem;
+	}
+      #simpleform { 
+         width:800px; 
+         border:2px solid grey; 
+         padding:14px; 
+      }  
+      #simpleform label, #simpleform legend {
+         font-size:14px; 
+         float:left; 
+         width:300px; 
+         text-align:right; 
+         display:block; 
+         padding-right: 5px;
+      }  
+      #simpleform span { 
+         font-size:11px; 
+         color:grey; 
+         width:100px; 
+         text-align:right; 
+         display:block; 
+      }  
+      #simpleform input { 
+         border:1px solid grey; 
+         font-family:verdana; 
+         font-size:14px; 
+         color:light blue; 
+         height:24px; 
+         width:250px; 
+         margin: 0 0 10px 10px; 
+      }  
+      #simpleform textarea { 
+         border:1px solid grey; 
+         font-family:verdana; 
+         font-size:14px; 
+         color:light blue; 
+         height:120px; 
+         width:250px; 
+         margin: 0 0 20px 10px;
+      }  
+      #simpleform select { 
+         margin: 0 0 20px 10px; 
+      }  
+      #simpleform button { 
+         clear:both; 
+         margin-left:250px; 
+         background: grey; 
+         color:#FFFFFF; 
+         border:solid 1px #666666; 
+         font-size:16px; 
+      } 
+      .round .align-self-start {
+			border-radius: 100%;
+			width: 45px;
+			height: 40px
+		}
+   </style> 
+{% endblock %}  
+
+{% block body %} 
+	
+	<h2>Addressbook</h2> 
+   <div class="card" id = "simpleform">
+   <div class="card-body"> 
+   
+		{% if profilepic is not empty %}
+		<span class="round"><img src="{{ asset('/uploads/photos/' ~ profilepic) }}" class="align-self-start mr-3"></span>
+		{% else %}
+			
+		{% endif %}
+		
+      {{ form_start(form) }} 
+      {{ form_widget(form) }} 
+      {{ form_end(form) }} 
+		
+   </div>   
+   </div>   
+{% endblock %}

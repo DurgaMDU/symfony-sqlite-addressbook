@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %} 
+{% block stylesheets %}  
+<style> 
+   .table { border-collapse: collapse; } 
+   .table th, td { 
+      border-bottom: 1px solid #ddd; 
+      width: 250px; 
+      text-align: left; 
+      align: left; 
+   } 
+   .round .align-self-start {
+		border-radius: 100%;
+		width: 45px;
+		height: 40px
+	}
+	.roundletter {
+	  width: 45px;
+	  height: 40px;
+	  border-radius: 100%;
+	  background: #512DA8;
+	  font-size: 35px;
+	  color: #fff;
+	  text-align: center;
+	  line-height: 40px;
+	  
+	}
+</style> 
+
+{% endblock %}  
+
+{% block body %} 
+<h2>Addressbook Contact Listing !</h2>  
+<div class="table-responsive">
+<table class = "table table-hover table-bordered">  
+   <tr>  
+      <th>#pic</th>  
+      <th>Fullname</th>  
+      <th>Email</th>  
+      <th>Street and number</th>  
+      <th>Zip</th>  
+      <th>City</th>  
+      <th>Country</th>  
+      <th>Phonenumber</th>  
+      <th>Birthday</th>  
+      <th>Actions</th>  
+   </tr>  
+   {% if data %} 
+   {% for x in data %} 
+   <tr> 
+      {% if x.picture is not null %}
+      <td> <span class="round"><img src="{{ asset('/uploads/photos/' ~ x.picture) }}" class="align-self-start mr-3"></span></td>  
+      {% else %}
+      <td><div class="roundletter">{{x.Firstname|striptags | first}}</div></td>
+      {% endif %}  
+      <td>{{ x.Firstname }} {{ x.Lastname }}</td>   
+      <td>{{ x.Email }}</td>   
+      <td>{{ x.Streetandnumber }}</td>   
+      <td>{{ x.Zip }}</td>   
+      <td>{{ x.City }}</td>   
+      <td>{{ x.Country }}</td>   
+      <td>{{ x.Phonenumber }}</td>   
+      {% if x.Birthday is not null %}
+      <td>{{ x.Birthday |date("j-F-Y")}}</td>
+      {% else %}
+      <td>-</td>
+      {% endif %} 
+      
+      <td>
+      <!-- Call to action buttons -->
+		<ul class="list-inline m-0">
+		
+			<li class="list-inline-item">
+			<a href="/addressbook/update/{{ x.id }}">
+				<button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+			</a>
+			</li>
+			<li class="list-inline-item">
+				<button class="deleteBtn btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"  id="{{ x.id }}">
+				<i id="loading{{ x.id }}" style="display:none" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+				<i id="trash{{ x.id }}" style="display:block"  class="trash fa fa-trash"></i></button>
+			</li>
+		</ul>
+      </td>
+      
+        
+        
+   </tr>  
+   {% endfor %} 
+   {% else %} 
+   <tr>
+   <td colspan="10">No Results Founded</td>
+   </tr>
+   {% endif %} 
+</table> 
+</div>
+
+{% endblock %}
+{% block javascripts %} 
+<script type="text/javascript" async>
+$(document).ready(function(){
+
+$('.deleteBtn').click(function (e) {
+    e.preventDefault();
+
+    itemId = $(this).attr('id');
+   if (confirm('Are you sure you want to delete this addressbook #'+itemId+'?')) {
+	  // Save it!
+	  
+	$("#loading"+itemId).attr('style','display:block');
+	$("#trash"+itemId).attr('style','display:none');
+	
+		$.ajax({
+
+			url: '/addressbook/delete',
+			data: {'itemId':itemId},
+			type:       'POST',
+			dataType:   'json',
+			async:      true,  
+			success: function (data, reponse) {
+			
+			$("#loading"+itemId).attr('style','display:none');
+			$("#trash"+itemId).attr('style','display:block');
+			
+			 //console.log('reponse:',reponse)
+			 //console.log('data:',data)
+			 if(data.status === 1 ){
+				//appear pop to say success blabla
+				alert('#'+itemId+' Addressbook Deleted successfully');
+			 }else{
+				alert('Somthing went wrong, Please Try again');
+			 }
+			 location.reload(); 
+			},
+			error: function (xhr, textStatus, errorThrown) {
+			
+			$("#loading"+itemId).attr('style','display:none');
+			$("#trash"+itemId).attr('style','display:block');
+			
+				//appear pop to say error blabla
+				 alert('Ajax request failed, Please Try again');
+			},
+		});
+		
+	} else {
+	  // Do nothing!
+	  
+	}
+   
+
+});
+});
+</script>
+{% endblock %} 
